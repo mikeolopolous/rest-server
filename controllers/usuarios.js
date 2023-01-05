@@ -27,12 +27,20 @@ const usuariosPost = async(req, res) => {
   })
 }
 
-const usuariosPut = (req, res) => {
-  const id = req.params.id
+const usuariosPut = async(req, res) => {
+  const { id } = req.params
+  const { _id, password, google, correo, ...resto } = req.body
+
+  if ( password ) {
+    const salt = bcryptjs.genSaltSync()
+    resto.password = bcryptjs.hashSync( password, salt )
+  }
+
+  const usuario = await Usuario.findByIdAndUpdate( id, resto )
 
   res.json({
     msg: 'put method - Controlador',
-    id
+    usuario
   })
 }
 
