@@ -53,10 +53,13 @@ const usuariosPatch = (req, res) => {
   })
 }
 
-const usuariosDelete = (req, res) => {
-  res.json({
-    msg: 'delete method - Controlador'
-  })
+const usuariosDelete = async(req, res) => {
+  const { id } = req.params
+
+  // const usuario = await Usuario.findByIdAndDelete( id )
+  const usuario = await Usuario.findByIdAndUpdate(id, { estado: false })
+
+  res.json(usuario)
 }
 
 module.exports = {
